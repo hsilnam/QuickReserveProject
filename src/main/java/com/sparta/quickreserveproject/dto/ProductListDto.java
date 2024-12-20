@@ -1,7 +1,5 @@
 package com.sparta.quickreserveproject.dto;
 
-import com.sparta.quickreserveproject.entity.ProductEntity;
-
 import java.util.List;
 
 public class ProductListDto {
@@ -28,18 +26,18 @@ public class ProductListDto {
     }
 
     public static class Response {
-        private List<ProductDto> productList;
+        private List<Product> productList;
         private Long nextCursor;
 
         public Response() {
         }
 
-        public Response(List<ProductDto> productList, Long nextCursor) {
+        public Response(List<Product> productList, Long nextCursor) {
             this.productList = productList;
             this.nextCursor = nextCursor;
         }
 
-        public static class ProductDto {
+        public static class Product {
             private Long productPk;
             private String productName;
             private String productDescription;
@@ -48,7 +46,7 @@ public class ProductListDto {
             private Double productAvgRating;
             private Integer productReviewCount;
 
-            public ProductDto(Long productPk, String productName, String productDescription, int productPrice, int productStock,
+            public Product(Long productPk, String productName, String productDescription, int productPrice, int productStock,
                               Double productAvgRating, Integer productReviewCount) {
                 this.productPk = productPk;
                 this.productName = productName;
