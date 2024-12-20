@@ -7,6 +7,14 @@ plugins {
 group = 'com.sparta'
 version = '0.0.1-SNAPSHOT'
 
+// jar파일 이름 변경
+tasks.named('jar') {
+    enabled = false
+}
+tasks.named("bootJar") {
+    archiveFileName.set("${project.name}.jar")
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -23,6 +31,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
