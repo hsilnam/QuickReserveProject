@@ -32,4 +32,8 @@ public class UserProductWish extends CEntity {
         this.user = user;
         this.product = product;
     }
+
+    public Product getProduct() {
+        return product;
+    }
 }
