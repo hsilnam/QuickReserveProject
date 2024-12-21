@@ -39,12 +39,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto.Response getProduct(Long productPk) {
-        Product product = productRepository.findById(productPk)
-                .orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다"));
+        Product product = getProductEntity(productPk);
+        if(product == null) {
+            throw new IllegalArgumentException("해당 상품을 찾을 수 없습니다");
+        }
 
         return new ProductDto.Response(product.getProductPk(), product.getProductName(),
                 product.getProductDescription(), product.getProductPrice(), product.getProductStock(),
                 product.getProductAvgRating(), product.getProductReviewCount());
+    }
+
+    @Override
+    public Product getProductEntity(Long productPk) {
+        return productRepository.findById(productPk)
+                .orElse(null);
     }
 
 
