@@ -5,6 +5,9 @@ import com.sparta.quickreserveproject.dto.ProductListDto;
 import com.sparta.quickreserveproject.entity.ProductEntity;
 import com.sparta.quickreserveproject.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,18 +21,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductListDto.Response getProductList(ProductListDto.Request dto) {
-        List<ProductEntity> productList = (dto.getCursor() == null) ?
-                (productRepository.findTopByOrderByIdAsc(dto.getSize())) :
-                productRepository.findByIdGreaterThanOrderByIdAsc(dto.getCursor(), dto.getSize());
+        Pageable pageable = PageRequest.of(0, dto.getSize());
+        Page<ProductEntity> productPage = (dto.getCursor() == null) ?
+                productRepository.findAllByOrderByProductPkAsc(pageable) :
+                productRepository.findByProductPkGreaterThanOrderByProductPkAsc(dto.getCursor(), pageable);
 
-        List<ProductListDto.Response.Product> prodcutDtoList = productList.stream()
+        List<ProductListDto.Response.Product> productDtoList = productPage.stream()
                 .map(product -> new ProductListDto.Response.Product(product.getProductPk(), product.getProductName(),
                         product.getProductDescription(), product.getProductPrice(), product.getProductStock(),
                         product.getProductAvgRating(), product.getProductReviewCount()))
                 .collect(Collectors.toList());
 
-        Long nextCursor = (productList.size() == dto.getSize()) ? productList.get(productList.size() - 1).getProductPk() : null;
-        return new ProductListDto.Response(prodcutDtoList, nextCursor);
+        Long nextCursor = productPage.hasNext() ?
+                productDtoList.get(productDtoList.size() - 1).getProductPk() : null;
+        return new ProductListDto.Response(productDtoList, nextCursor);
     }
 
     @Override
