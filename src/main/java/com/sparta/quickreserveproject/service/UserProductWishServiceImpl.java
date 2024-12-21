@@ -1,7 +1,7 @@
 package com.sparta.quickreserveproject.service;
 
 import com.sparta.quickreserveproject.dto.UserProductWishAddDto;
-import com.sparta.quickreserveproject.entity.ProductEntity;
+import com.sparta.quickreserveproject.entity.Product;
 import com.sparta.quickreserveproject.entity.UserProductWish;
 import com.sparta.quickreserveproject.repository.ProductRepository;
 import com.sparta.quickreserveproject.repository.UserProductWishRepository;
@@ -19,7 +19,7 @@ public class UserProductWishServiceImpl implements UserProductWishService {
 
     @Override
     public void addWish(UserProductWishAddDto.Request dto) {
-        ProductEntity product = productRepository.findById(dto.getProductPk())
+        Product product = productRepository.findById(dto.getProductPk())
                 .orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
 
         UserProductWish userProductWish = new UserProductWish(dto.getUserPk(), product);
