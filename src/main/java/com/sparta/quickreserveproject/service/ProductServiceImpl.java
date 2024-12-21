@@ -2,7 +2,7 @@ package com.sparta.quickreserveproject.service;
 
 import com.sparta.quickreserveproject.dto.ProductDto;
 import com.sparta.quickreserveproject.dto.ProductListDto;
-import com.sparta.quickreserveproject.entity.ProductEntity;
+import com.sparta.quickreserveproject.entity.Product;
 import com.sparta.quickreserveproject.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto.Response getProductList(ProductListDto.Request dto) {
         Pageable pageable = PageRequest.of(0, dto.getSize());
-        Page<ProductEntity> productPage = (dto.getCursor() == null) ?
+        Page<Product> productPage = (dto.getCursor() == null) ?
                 productRepository.findAllByOrderByProductPkAsc(pageable) :
                 productRepository.findByProductPkGreaterThanOrderByProductPkAsc(dto.getCursor(), pageable);
 
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto.Response getProduct(Long productPk) {
-        ProductEntity product = productRepository.findById(productPk)
+        Product product = productRepository.findById(productPk)
                 .orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다"));
 
         return new ProductDto.Response(product.getProductPk(), product.getProductName(),
