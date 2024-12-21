@@ -4,7 +4,6 @@ package com.sparta.quickreserveproject.entity;
 import com.sparta.quickreserveproject.global.entity.CEntity;
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "user_product_wish")
 public class UserProductWish extends CEntity {
@@ -24,12 +23,12 @@ public class UserProductWish extends CEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_pk", nullable = false)
-    private ProductEntity product;
+    private Product product;
 
     public UserProductWish() {
     }
 
-    public UserProductWish(Long user, ProductEntity product) {
+    public UserProductWish(Long user, Product product) {
         this.user = user;
         this.product = product;
     }

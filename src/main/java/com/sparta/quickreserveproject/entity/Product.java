@@ -10,7 +10,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "product")
 @SQLDelete(sql = "UPDATE product SET deleted_at = now() WHERE product_pk = ?")
 @Where(clause = "deleted_at is null")
-public class ProductEntity extends CUDEntity {
+public class Product extends CUDEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +39,10 @@ public class ProductEntity extends CUDEntity {
 
 //    private Long categoryPk; // TODO: 나중에 추가
 
-    public ProductEntity() {
+    public Product() {
     }
 
-    public ProductEntity(Long productPk, String productName, String productDescription, int productPrice, int productStock,
+    public Product(Long productPk, String productName, String productDescription, int productPrice, int productStock,
                    Double productAvgRating, Integer productReviewCount) {
         this.productPk = productPk;
         this.productName = productName;
