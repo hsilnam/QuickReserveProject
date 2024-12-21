@@ -3,12 +3,12 @@ package com.sparta.quickreserveproject.dto;
 import java.util.List;
 
 public class ProductListDto {
+
     public static class Request {
         private Long cursor;
         private int size = 10;
 
         public Request() {
-
         }
 
         public Request(Long cursor, int size) {
@@ -17,11 +17,19 @@ public class ProductListDto {
         }
 
         public Long getCursor() {
-            return this.cursor;
+            return cursor;
         }
 
         public int getSize() {
-            return this.size;
+            return size;
+        }
+
+        public void setCursor(Long cursor) {
+            this.cursor = cursor;
+        }
+
+        public void setSize(int size) {
+            this.size = size;
         }
     }
 
@@ -37,6 +45,14 @@ public class ProductListDto {
             this.nextCursor = nextCursor;
         }
 
+        public List<Product> getProductList() {
+            return productList;
+        }
+
+        public Long getNextCursor() {
+            return nextCursor;
+        }
+
         public static class Product {
             private Long productPk;
             private String productName;
@@ -46,8 +62,11 @@ public class ProductListDto {
             private Double productAvgRating;
             private Integer productReviewCount;
 
+            public Product() {
+            }
+
             public Product(Long productPk, String productName, String productDescription, int productPrice, int productStock,
-                              Double productAvgRating, Integer productReviewCount) {
+                           Double productAvgRating, Integer productReviewCount) {
                 this.productPk = productPk;
                 this.productName = productName;
                 this.productDescription = productDescription;
@@ -57,7 +76,33 @@ public class ProductListDto {
                 this.productReviewCount = productReviewCount;
             }
 
+            public Long getProductPk() {
+                return productPk;
+            }
 
+            public String getProductName() {
+                return productName;
+            }
+
+            public String getProductDescription() {
+                return productDescription;
+            }
+
+            public int getProductPrice() {
+                return productPrice;
+            }
+
+            public int getProductStock() {
+                return productStock;
+            }
+
+            public Double getProductAvgRating() {
+                return productAvgRating;
+            }
+
+            public Integer getProductReviewCount() {
+                return productReviewCount;
+            }
         }
     }
 }

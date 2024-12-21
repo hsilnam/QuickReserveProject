@@ -11,6 +11,9 @@ public class ProductDto {
         private Double productAvgRating;
         private Integer productReviewCount;
 
+        public Response() {
+        }
+
         public Response(Long productPk, String productName, String productDescription, int productPrice, int productStock,
                         Double productAvgRating, Integer productReviewCount) {
             this.productPk = productPk;
@@ -20,6 +23,34 @@ public class ProductDto {
             this.productStock = productStock;
             this.productAvgRating = productAvgRating;
             this.productReviewCount = productReviewCount;
+        }
+
+        public Long getProductPk() {
+            return productPk;
+        }
+
+        public String getProductName() {
+            return productName;
+        }
+
+        public String getProductDescription() {
+            return productDescription;
+        }
+
+        public int getProductPrice() {
+            return productPrice;
+        }
+
+        public int getProductStock() {
+            return productStock;
+        }
+
+        public Double getProductAvgRating() {
+            return productAvgRating;
+        }
+
+        public Integer getProductReviewCount() {
+            return productReviewCount;
         }
     }
 }
