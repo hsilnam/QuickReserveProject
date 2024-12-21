@@ -1,13 +1,16 @@
 package com.sparta.quickreserveproject.entity;
 
 
+import com.sparta.quickreserveproject.global.entity.CUDEntity;
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "product")
-public class ProductEntity {
+@SQLDelete(sql = "UPDATE product SET deleted_at = now() WHERE product_pk = ?")
+@Where(clause = "deleted_at is null")
+public class ProductEntity extends CUDEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,15 +36,6 @@ public class ProductEntity {
 
     @Column(name = "product_review_count")
     private Integer productReviewCount;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
 
 //    private Long categoryPk; // TODO: 나중에 추가
 
