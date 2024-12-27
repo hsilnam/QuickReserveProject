@@ -2,6 +2,7 @@ package com.sparta.quickreserveproject.service;
 
 import com.sparta.quickreserveproject.dto.UserCreateRequestDto;
 import com.sparta.quickreserveproject.dto.UserCreateResponseDto;
+import com.sparta.quickreserveproject.dto.UserMyInfoResponseDto;
 import com.sparta.quickreserveproject.entity.User;
 import com.sparta.quickreserveproject.global.util.EncryptionUtil;
 import com.sparta.quickreserveproject.repository.UserRepository;
@@ -61,5 +62,24 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new RuntimeException("유저 생성 중 에러가 발생하였습는니다", e);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserMyInfoResponseDto getMyInfo(Long userPk) {
+        User user = userRepository.findById(userPk)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 유저가 없습니다"));
+        return UserMyInfoResponseDto.builder()
+                .userPk(user.getUserPk())
+                .userId(user.getUserId())
+                .userName(user.getUserName())
+                .userPhoneNum(user.getUserPhoneNum())
+                .userEmail(user.getUserEmail())
+                .userAddress(user.getUserAddress())
+                .userAddressDetail(user.getUserAddressDetail())
+                .userGender(user.getUserGender())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
     }
 }
