@@ -1,6 +1,8 @@
 package com.sparta.quickreserveproject.service;
 
 import com.sparta.quickreserveproject.dto.CartItemAddRequestDto;
+import com.sparta.quickreserveproject.dto.CartRequestDto;
+import com.sparta.quickreserveproject.dto.CartResponseDto;
 import com.sparta.quickreserveproject.entity.Cart;
 import com.sparta.quickreserveproject.entity.CartItem;
 import com.sparta.quickreserveproject.entity.Product;
@@ -9,9 +11,15 @@ import com.sparta.quickreserveproject.repository.CartItemRepository;
 import com.sparta.quickreserveproject.repository.CartRepository;
 import com.sparta.quickreserveproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +58,33 @@ public class CartServiceImpl implements CartService {
                 .build();
 
         cartItemRepository.save(cartItem);
+
+    }
+
+    @Override
+    public CartResponseDto getCart(CartRequestDto dto) {
+        Pageable pageable = PageRequest.of(0, dto.getSize());
+
+        Page<CartItem> cartItemPage = (dto.getCursor() == null) ?
+                cartItemRepository.findAllByCart_User_UserPkOrderByCartItemPkAsc(dto.getUserPk(), pageable) :
+                cartItemRepository.findByCart_User_UserPkAndCartItemPkGreaterThanOrderByCartItemPkAsc(
+                        dto.getUserPk(), dto.getCursor(), pageable
+                );
+
+        List<CartResponseDto.CartItem> cartItemDtoList = cartItemPage.stream()
+                .map(cartItem -> new CartResponseDto.CartItem(
+                        cartItem.getCartItemPk(),
+                        cartItem.getProduct().getProductPk(),
+                        cartItem.getProduct().getProductName(),
+                        cartItem.getCartItemQuantity(),
+                        cartItem.getCartItemPrice()
+                ))
+                .collect(Collectors.toList());
+
+        Long nextCursor = cartItemPage.hasNext() ?
+                cartItemDtoList.get(cartItemDtoList.size() - 1).getCartItemPk() : null;
+
+        return new CartResponseDto(cartItemDtoList, nextCursor);
 
     }
 }
