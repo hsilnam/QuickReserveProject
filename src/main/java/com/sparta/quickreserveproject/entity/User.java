@@ -1,10 +1,14 @@
 package com.sparta.quickreserveproject.entity;
 
 import com.sparta.quickreserveproject.global.entity.CUDEntity;
+import com.sparta.quickreserveproject.global.util.EncryptionUtil;
+import com.sparta.quickreserveproject.global.util.PasswordUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import javax.crypto.SecretKey;
 
 @Entity
 @Table(name = "user")
@@ -49,5 +53,34 @@ public class User extends CUDEntity {
 
     public enum Gender {
         MALE, FEMALE
+    }
+
+    private String secretKey;
+
+    @PrePersist
+    @PreUpdate
+    private void encryptSensitiveData() {
+        try {
+            SecretKey key = (secretKey == null) ? EncryptionUtil.generateKey() : EncryptionUtil.decodeKey(secretKey);
+            if (secretKey == null) {
+                this.secretKey = EncryptionUtil.encodeKey(key);
+            }
+            this.userName = EncryptionUtil.encrypt(userName, key);
+            this.userAddress = EncryptionUtil.encrypt(userAddress, key);
+            this.userPw = PasswordUtil.hashPassword(userPw);
+        } catch (Exception e) {
+            throw new RuntimeException("유저 데이터 암호화 과정 중 에러가 발생하였습니다", e);
+        }
+    }
+
+    @PostLoad
+    private void decryptSensitiveData() {
+        try {
+            SecretKey key = EncryptionUtil.decodeKey(secretKey);
+            this.userName = EncryptionUtil.decrypt(userName, key);
+            this.userAddress = EncryptionUtil.decrypt(userAddress, key);
+        } catch (Exception e) {
+            throw new RuntimeException("유저 데이터 복호화 과정 중 에러가 발생하였습니다", e);
+        }
     }
 }
