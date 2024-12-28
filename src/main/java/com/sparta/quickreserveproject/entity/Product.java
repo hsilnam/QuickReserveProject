@@ -3,6 +3,8 @@ package com.sparta.quickreserveproject.entity;
 
 import com.sparta.quickreserveproject.global.entity.CUDEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -79,5 +81,9 @@ public class Product extends CUDEntity {
 
     public Integer getProductReviewCount() {
         return productReviewCount;
+    }
+
+    public void setProductStock(int productStock) {
+        this.productStock = productStock;
     }
 }
