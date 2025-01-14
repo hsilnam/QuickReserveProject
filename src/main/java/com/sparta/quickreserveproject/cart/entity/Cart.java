@@ -19,9 +19,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartPk;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_pk", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Long userPk;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();

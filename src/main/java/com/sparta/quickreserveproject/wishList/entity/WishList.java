@@ -20,21 +20,20 @@ public class WishList extends CEntity {
     private User userPk; //
      */
     @Column
-    private Long user;
+    private Long userPk;
 
-    @ManyToOne
-    @JoinColumn(name = "product_pk", nullable = false)
-    private Product product;
+    @Column( nullable = false)
+    private Long productPk;
 
     public WishList() {
     }
 
-    public WishList(Long user, Product product) {
-        this.user = user;
-        this.product = product;
+    public WishList(Long user, Long product) {
+        this.userPk = user;
+        this.productPk = product;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProduct() {
+        return productPk;
     }
 }

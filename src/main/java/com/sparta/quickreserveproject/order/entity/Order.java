@@ -21,9 +21,8 @@ public class Order extends CEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderPk;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_pk", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Long userPk;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();

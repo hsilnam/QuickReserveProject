@@ -30,28 +30,28 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public void placeOrderFromCart(OrderPlaceCartRequestDto dto) {
         // NOTE: 결제가 성공적으로 완료됐다는 전제하에
-        User user = userRepository.findById(dto.getUserPk())
+        /*User user = userRepository.findById(dto.getUserPk())
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
-
+*/ // TODO: MSA 리펙토링 필요
         int calculatedTotalPrice = dto.getOrderItems().stream()
                 .map(item -> {
                     CartItem cartItem = cartItemRepository.findById(item.getCartItemPk())
                             .orElseThrow(() -> new IllegalArgumentException("장바구니 아이템을 찾을 수 없습니다."));
 
-                    Product product = cartItem.getProduct();
+                    /*Product product = cartItem.getProduct();
                     if (product.getProductStock() < cartItem.getCartItemQuantity()) {
                         throw new IllegalArgumentException("재고가 부족합니다: " + product.getProductName());
                     }
 
                     product.setProductStock(product.getProductStock() - cartItem.getCartItemQuantity());
-
+*///TODO: MSA 리펙토링 필요
                     return cartItem.getCartItemPrice() * cartItem.getCartItemQuantity();
                 })
                 .reduce(0, Integer::sum);
 
 
         Order order = Order.builder()
-                .user(user)
+                .userPk(dto.getUserPk())
                 .totalPrice(calculatedTotalPrice) // TODO: 만약 request에도 프론트에서 계산한 totalPrice 정보를 넣는다면, 서버에서 계산한 값이 정말 맞는지 검사도 해야할까?
                 .status(Order.OrderStatus.PENDING)
                 .build();
@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService{
 
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
-                    .product(cartItem.getProduct())
+                    .productPk(cartItem.getProductPk())
                     .quantity(cartItem.getCartItemQuantity())
                     .price(cartItem.getCartItemPrice())
                     .build();
@@ -76,18 +76,18 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public void placeDirectOrder(OrderPlaceDirectRequestDto dto) {
         // NOTE: 결제가 성공적으로 완료됐다는 전제하에
-        User user = userRepository.findById(dto.getUserPk())
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
-
+/*        User user = userRepository.findById(dto.getUserPk())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));*/
+        // TODO: MSA 변환 필요
         Order order = Order.builder()
-                .user(user)
+                .userPk(dto.getUserPk())
                 .status(Order.OrderStatus.PENDING)
                 .build();
         order = orderRepository.save(order);
 
         int totalPrice = 0;
         for (OrderPlaceDirectRequestDto.OrderItem item : dto.getOrderItems()) {
-            Product product = productRepository.findById(item.getProductPk())
+            /*Product product = productRepository.findById(item.getProductPk())
                     .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
             if (product.getProductStock() < item.getQuantity()) {
                 throw new IllegalArgumentException("재고가 부족합니다.");
@@ -96,15 +96,17 @@ public class OrderServiceImpl implements OrderService{
             product.setProductStock(product.getProductStock() - item.getQuantity());
 
             int itemTotalPrice = product.getProductPrice() * item.getQuantity();
+*/
+            // TODO: MSA 리펙토링 필요
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
-                    .product(product)
+                    .productPk(item.getProductPk())
                     .quantity(item.getQuantity())
-                    .price(itemTotalPrice)
+                    .price(99999) //TODO: temp
                     .build();
             orderItemRepository.save(orderItem);
 
-            totalPrice += itemTotalPrice;
+//            totalPrice += itemTotalPrice; //TODO: MSA 변환 필요
         }
 
         order.setTotalPrice(totalPrice);

@@ -18,13 +18,11 @@ public class CartItem extends CEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemPk;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_pk", nullable = false)
-    private Cart cart;
+    @Column(nullable = false)
+    private Long cartPk;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_pk", nullable = false)
-    private Product product;
+    @Column(nullable = false)
+    private Long productPk;
 
     @Column(nullable = false)
     private int cartItemQuantity;

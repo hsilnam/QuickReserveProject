@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
-    Page<CartItem> findAllByCart_User_UserPkOrderByCartItemPkAsc(Long userPk, Pageable pageable);
+    Page<CartItem> findAllByUserPkOrderByIdAsc(Long userPk, Pageable pageable);
 
-    Page<CartItem> findByCart_User_UserPkAndCartItemPkGreaterThanOrderByCartItemPkAsc(Long userPk, Long cursor, Pageable pageable);
+    Page<CartItem> findByUserPkAndIdGreaterThanOrderByIdAsc(Long userPk, Long cursor, Pageable pageable);
 }

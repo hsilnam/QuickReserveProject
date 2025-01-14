@@ -29,7 +29,7 @@ public class WishListServiceImpl implements WishListService {
         Product product = productRepository.findById(dto.getProductPk())
                 .orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
 
-        WishList userProductWish = new WishList(dto.getUserPk(), product);
+        WishList userProductWish = new WishList(dto.getUserPk(), product.getProductPk());
         userProductWishRepository.save(userProductWish);
     }
 
@@ -42,8 +42,8 @@ public class WishListServiceImpl implements WishListService {
 
         List<UserProductWishListDto.Response.Wish> wishDtoList = wishPage.stream()
                 .map(wish -> new UserProductWishListDto.Response.Wish(
-                        wish.getProduct().getProductPk(), wish.getProduct().getProductName(), wish.getProduct().getProductDescription(),
-                        wish.getProduct().getProductPrice(), wish.getProduct().getProductStock(), wish.getProduct().getProductAvgRating(), wish.getProduct().getProductReviewCount()
+//                        wish.getProduct(), wish.getProduct().getProductName(), wish.getProduct().getProductDescription(),
+//                        wish.getProduct().getProductPrice(), wish.getProduct().getProductStock(), wish.getProduct().getProductAvgRating(), wish.getProduct().getProductReviewCount() // TODO: MSA로 정보 가져오기
                 ))
                 .collect(Collectors.toList());
 

@@ -22,9 +22,8 @@ public class OrderItem extends CEntity {
     @JoinColumn(name = "order_pk", nullable = false)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_pk", nullable = false)
-    private Product product;
+    @Column(nullable = false)
+    private Long productPk;
 
     @Column(nullable = false)
     private int quantity;

@@ -42,17 +42,17 @@ public class CartServiceImpl implements CartService {
             throw new IllegalArgumentException("재고가 부족합니다.");
         }
 
-        Cart cart = cartRepository.findByUser_UserPk(dto.getUserPk())
+        Cart cart = cartRepository.findByUserPk(dto.getUserPk())
                 .orElseGet(() -> {
                     Cart newCart = Cart.builder()
-                            .user(User.builder().userPk(dto.getUserPk()).build())
+                            .userPk(dto.getUserPk())
                             .build();
                     return cartRepository.save(newCart);
                 });
 
         CartItem cartItem = CartItem.builder()
-                .cart(cart)
-                .product(product)
+                .cartPk(cart.getCartPk())
+                .productPk(product.getProductPk())
                 .cartItemQuantity(dto.getQuantity())
                 .cartItemPrice(product.getProductPrice() * dto.getQuantity())
                 .build();
@@ -66,16 +66,16 @@ public class CartServiceImpl implements CartService {
         Pageable pageable = PageRequest.of(0, dto.getSize());
 
         Page<CartItem> cartItemPage = (dto.getCursor() == null) ?
-                cartItemRepository.findAllByCart_User_UserPkOrderByCartItemPkAsc(dto.getUserPk(), pageable) :
-                cartItemRepository.findByCart_User_UserPkAndCartItemPkGreaterThanOrderByCartItemPkAsc(
+                cartItemRepository.findAllByUserPkOrderByIdAsc(dto.getUserPk(), pageable) :
+                cartItemRepository.findByUserPkAndIdGreaterThanOrderByIdAsc(
                         dto.getUserPk(), dto.getCursor(), pageable
                 );
 
         List<CartResponseDto.CartItem> cartItemDtoList = cartItemPage.stream()
                 .map(cartItem -> new CartResponseDto.CartItem(
                         cartItem.getCartItemPk(),
-                        cartItem.getProduct().getProductPk(),
-                        cartItem.getProduct().getProductName(),
+                        cartItem.getProductPk(),
+                        "temp", // TODO: MSA를 통해 정보 가져올 것
                         cartItem.getCartItemQuantity(),
                         cartItem.getCartItemPrice()
                 ))
