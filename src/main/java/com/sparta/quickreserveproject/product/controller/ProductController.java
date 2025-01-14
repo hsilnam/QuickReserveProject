@@ -1,7 +1,8 @@
 package com.sparta.quickreserveproject.product.controller;
 
-import com.sparta.quickreserveproject.product.dto.ProductDto;
-import com.sparta.quickreserveproject.product.dto.ProductListDto;
+import com.sparta.quickreserveproject.product.dto.ProductListResponseDto;
+import com.sparta.quickreserveproject.product.dto.ProductResponseDto;
+import com.sparta.quickreserveproject.product.dto.ProductListRequestDto;
 import com.sparta.quickreserveproject.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,18 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<ProductListDto.Response> getProductList(
-            @ModelAttribute ProductListDto.Request dto
+    public ResponseEntity<ProductListResponseDto> getProductList(
+            @ModelAttribute ProductListRequestDto dto
     ) {
-        ProductListDto.Response response = productService.getProductList(dto);
+        ProductListResponseDto response = productService.getProductList(dto);
         return ResponseEntity.ok(response);
     }
 
 
 
     @GetMapping("/{productPk}")
-    public ResponseEntity<ProductDto.Response> getProduct(@PathVariable Long productPk) {
-        ProductDto.Response response = productService.getProduct(productPk);
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long productPk) {
+        ProductResponseDto response = productService.getProduct(productPk);
         return ResponseEntity.ok(response);
     }
 }

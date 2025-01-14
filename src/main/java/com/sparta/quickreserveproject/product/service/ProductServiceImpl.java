@@ -1,7 +1,8 @@
 package com.sparta.quickreserveproject.product.service;
 
-import com.sparta.quickreserveproject.product.dto.ProductDto;
-import com.sparta.quickreserveproject.product.dto.ProductListDto;
+import com.sparta.quickreserveproject.product.dto.ProductListResponseDto;
+import com.sparta.quickreserveproject.product.dto.ProductResponseDto;
+import com.sparta.quickreserveproject.product.dto.ProductListRequestDto;
 import com.sparta.quickreserveproject.product.entity.Product;
 import com.sparta.quickreserveproject.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,33 +21,45 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public ProductListDto.Response getProductList(ProductListDto.Request dto) {
+    public ProductListResponseDto getProductList(ProductListRequestDto dto) {
         Pageable pageable = PageRequest.of(0, dto.getSize());
         Page<Product> productPage = (dto.getCursor() == null) ?
                 productRepository.findAllByOrderByProductPkAsc(pageable) :
                 productRepository.findByProductPkGreaterThanOrderByProductPkAsc(dto.getCursor(), pageable);
 
-        List<ProductListDto.Response.Product> productDtoList = productPage.stream()
-                .map(product -> new ProductListDto.Response.Product(product.getProductPk(), product.getProductName(),
-                        product.getProductDescription(), product.getProductPrice(), product.getProductStock(),
-                        product.getProductAvgRating(), product.getProductReviewCount()))
+        List<ProductListResponseDto.Product> productDtoList = productPage.stream()
+                .map(product -> ProductListResponseDto.Product.builder()
+                        .productPk(product.getProductPk())
+                        .productName(product.getProductName())
+                        .productDescription(product.getProductDescription())
+                        .productPrice(product.getProductPrice())
+                        .productStock(product.getProductStock())
+                        .productAvgRating(product.getProductAvgRating())
+                        .productReviewCount(product.getProductReviewCount())
+                        .build())
                 .collect(Collectors.toList());
 
         Long nextCursor = productPage.hasNext() ?
                 productDtoList.get(productDtoList.size() - 1).getProductPk() : null;
-        return new ProductListDto.Response(productDtoList, nextCursor);
+        return new ProductListResponseDto(productDtoList, nextCursor);
     }
 
     @Override
-    public ProductDto.Response getProduct(Long productPk) {
+    public ProductResponseDto getProduct(Long productPk) {
         Product product = getProductEntity(productPk);
-        if(product == null) {
+        if (product == null) {
             throw new IllegalArgumentException("해당 상품을 찾을 수 없습니다");
         }
 
-        return new ProductDto.Response(product.getProductPk(), product.getProductName(),
-                product.getProductDescription(), product.getProductPrice(), product.getProductStock(),
-                product.getProductAvgRating(), product.getProductReviewCount());
+        return ProductResponseDto.builder()
+                .productPk(product.getProductPk())
+                .productName(product.getProductName())
+                .productDescription(product.getProductDescription())
+                .productPrice(product.getProductPrice())
+                .productStock(product.getProductStock())
+                .productAvgRating(product.getProductAvgRating())
+                .productReviewCount(product.getProductReviewCount())
+                .build();
     }
 
     @Override

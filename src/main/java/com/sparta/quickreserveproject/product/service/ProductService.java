@@ -1,12 +1,13 @@
 package com.sparta.quickreserveproject.product.service;
 
-import com.sparta.quickreserveproject.product.dto.ProductDto;
-import com.sparta.quickreserveproject.product.dto.ProductListDto;
+import com.sparta.quickreserveproject.product.dto.ProductListResponseDto;
+import com.sparta.quickreserveproject.product.dto.ProductResponseDto;
+import com.sparta.quickreserveproject.product.dto.ProductListRequestDto;
 import com.sparta.quickreserveproject.product.entity.Product;
 
 public interface ProductService {
-    ProductListDto.Response getProductList(ProductListDto.Request request);
-    ProductDto.Response getProduct(Long productPk);
+    ProductListResponseDto getProductList(ProductListRequestDto request);
+    ProductResponseDto getProduct(Long productPk);
 
     Product getProductEntity(Long productPk);
 }

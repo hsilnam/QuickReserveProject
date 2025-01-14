@@ -1,6 +1,6 @@
 package com.sparta.quickreserveproject.wishList.controller;
 
-import com.sparta.quickreserveproject.wishList.dto.WishListAddDto;
+import com.sparta.quickreserveproject.wishList.dto.WishListAddRequestDto;
 import com.sparta.quickreserveproject.user.dto.UserProductWishListDto;
 import com.sparta.quickreserveproject.wishList.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class WishListController {
 
     @PostMapping
     public ResponseEntity<String> addWish(
-            @RequestBody WishListAddDto.Request dto
+            @RequestBody WishListAddRequestDto dto
 //            @AuthenticationPrincipal UserDetailsImpl user // TODO: jwt
     ) {
 //        Long userPk = user.getUser().getUserPk(); // TODO: JWT에서 유저 ID 추출

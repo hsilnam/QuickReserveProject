@@ -3,6 +3,7 @@ package com.sparta.quickreserveproject.product.entity;
 
 import com.sparta.quickreserveproject.global.entity.CUDEntity;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -10,6 +11,11 @@ import org.hibernate.annotations.Where;
 @Table(name = "product")
 @SQLDelete(sql = "UPDATE product SET deleted_at = now() WHERE product_pk = ?")
 @Where(clause = "deleted_at is null")
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product extends CUDEntity {
 
     @Id
@@ -38,50 +44,4 @@ public class Product extends CUDEntity {
     private Integer productReviewCount;
 
 //    private Long categoryPk; // TODO: 나중에 추가
-
-    public Product() {
-    }
-
-    public Product(Long productPk, String productName, String productDescription, int productPrice, int productStock,
-                   Double productAvgRating, Integer productReviewCount) {
-        this.productPk = productPk;
-        this.productName = productName;
-        this.productDescription = productDescription;
-        this.productPrice = productPrice;
-        this.productStock = productStock;
-        this.productAvgRating = productAvgRating;
-        this.productReviewCount = productReviewCount;
-    }
-
-    public Long getProductPk() {
-        return productPk;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getProductDescription() {
-        return productDescription;
-    }
-
-    public int getProductPrice() {
-        return productPrice;
-    }
-
-    public int getProductStock() {
-        return productStock;
-    }
-
-    public Double getProductAvgRating() {
-        return productAvgRating;
-    }
-
-    public Integer getProductReviewCount() {
-        return productReviewCount;
-    }
-
-    public void setProductStock(int productStock) {
-        this.productStock = productStock;
-    }
 }

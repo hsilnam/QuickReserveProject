@@ -1,10 +1,10 @@
 package com.sparta.quickreserveproject.wishList.service;
 
-import com.sparta.quickreserveproject.wishList.dto.WishListAddDto;
+import com.sparta.quickreserveproject.wishList.dto.WishListAddRequestDto;
 import com.sparta.quickreserveproject.user.dto.UserProductWishListDto;
 
 public interface WishListService {
-    void addWish(WishListAddDto.Request dto);
+    void addWish(WishListAddRequestDto dto);
 
     UserProductWishListDto.Response getWishList(UserProductWishListDto.Request dto);
 }

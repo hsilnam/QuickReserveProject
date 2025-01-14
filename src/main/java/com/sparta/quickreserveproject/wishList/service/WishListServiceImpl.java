@@ -1,6 +1,6 @@
 package com.sparta.quickreserveproject.wishList.service;
 
-import com.sparta.quickreserveproject.wishList.dto.WishListAddDto;
+import com.sparta.quickreserveproject.wishList.dto.WishListAddRequestDto;
 import com.sparta.quickreserveproject.user.dto.UserProductWishListDto;
 import com.sparta.quickreserveproject.product.entity.Product;
 import com.sparta.quickreserveproject.wishList.entity.WishList;
@@ -25,11 +25,15 @@ public class WishListServiceImpl implements WishListService {
     private ProductRepository productRepository;
 
     @Override
-    public void addWish(WishListAddDto.Request dto) {
-        Product product = productRepository.findById(dto.getProductPk())
-                .orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
+    public void addWish(WishListAddRequestDto dto) {
+/*        Product product = productRepository.findById(dto.getProductPk())
+                .orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));*/
+        // TODO: MSA 변환 필요
 
-        WishList userProductWish = new WishList(dto.getUserPk(), product.getProductPk());
+        WishList userProductWish = WishList.builder()
+                .userPk(dto.getUserPk())
+                .productPk(dto.getProductPk())
+                .build();
         userProductWishRepository.save(userProductWish);
     }
 

@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService{
                     .order(order)
                     .productPk(item.getProductPk())
                     .quantity(item.getQuantity())
-                    .price(99999) //TODO: temp
+                    .price(99999) //TODO: temp(order price)
                     .build();
             orderItemRepository.save(orderItem);
 
