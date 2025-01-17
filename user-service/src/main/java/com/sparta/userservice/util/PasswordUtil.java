@@ -1,4 +1,4 @@
-package com.sparta.quickreserveproject.global.util;
+package com.sparta.userservice.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

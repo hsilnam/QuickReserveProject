@@ -1,4 +1,4 @@
-package com.sparta.quickreserveproject.global.util;
+package com.sparta.userservice.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

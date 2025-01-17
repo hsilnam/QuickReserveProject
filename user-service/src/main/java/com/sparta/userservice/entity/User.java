@@ -1,16 +1,20 @@
-package com.sparta.quickreserveproject.user.entity;
+package com.sparta.userservice.entity;
 
-import com.sparta.quickreserveproject.global.entity.CUDEntity;
-import com.sparta.quickreserveproject.global.util.EncryptionUtil;
-import com.sparta.quickreserveproject.global.util.PasswordUtil;
+import com.sparta.userservice.util.EncryptionUtil;
+import com.sparta.userservice.util.PasswordUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.crypto.SecretKey;
+import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(value = AuditingEntityListener.class)
 @Table(name = "user")
 @SQLDelete(sql = "UPDATE product SET deleted_at = now() WHERE product_pk = ?")
 @Where(clause = "deleted_at is null")
@@ -19,7 +23,7 @@ import javax.crypto.SecretKey;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends CUDEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userPk;
@@ -56,6 +60,20 @@ public class User extends CUDEntity {
     }
 
     private String secretKey;
+
+
+
+    @CreatedDate
+    @Column(name = "CREATED_AT", updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "UPDATED_AT")
+    private LocalDateTime updatedAt;
+
+    @Setter
+    @Column(name = "DELETED_AT")
+    private LocalDateTime deletedAt;
 
     @PrePersist
     @PreUpdate

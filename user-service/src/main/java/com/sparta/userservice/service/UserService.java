@@ -1,8 +1,8 @@
-package com.sparta.quickreserveproject.user.service;
+package com.sparta.userservice.service;
 
-import com.sparta.quickreserveproject.user.dto.UserCreateRequestDto;
-import com.sparta.quickreserveproject.user.dto.UserCreateResponseDto;
-import com.sparta.quickreserveproject.user.dto.UserMyInfoResponseDto;
+import com.sparta.userservice.dto.UserCreateRequestDto;
+import com.sparta.userservice.dto.UserCreateResponseDto;
+import com.sparta.userservice.dto.UserMyInfoResponseDto;
 
 public interface UserService {
     UserCreateResponseDto createUser(UserCreateRequestDto dto);

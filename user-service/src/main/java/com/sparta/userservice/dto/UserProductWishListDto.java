@@ -1,4 +1,4 @@
-package com.sparta.quickreserveproject.user.dto;
+package com.sparta.userservice.dto;
 
 import java.util.List;
 

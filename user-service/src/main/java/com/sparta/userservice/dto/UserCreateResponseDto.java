@@ -1,6 +1,6 @@
-package com.sparta.quickreserveproject.user.dto;
+package com.sparta.userservice.dto;
 
-import com.sparta.quickreserveproject.user.entity.User;
+import com.sparta.userservice.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

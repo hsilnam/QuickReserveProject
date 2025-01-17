@@ -1,9 +1,9 @@
-package com.sparta.quickreserveproject.user.controller;
+package com.sparta.userservice.controller;
 
-import com.sparta.quickreserveproject.user.dto.UserCreateRequestDto;
-import com.sparta.quickreserveproject.user.dto.UserCreateResponseDto;
-import com.sparta.quickreserveproject.user.dto.UserMyInfoResponseDto;
-import com.sparta.quickreserveproject.user.service.UserService;
+import com.sparta.userservice.dto.UserCreateRequestDto;
+import com.sparta.userservice.dto.UserCreateResponseDto;
+import com.sparta.userservice.dto.UserMyInfoResponseDto;
+import com.sparta.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,11 +1,11 @@
-package com.sparta.quickreserveproject.user.service;
+package com.sparta.userservice.service;
 
-import com.sparta.quickreserveproject.user.dto.UserCreateRequestDto;
-import com.sparta.quickreserveproject.user.dto.UserCreateResponseDto;
-import com.sparta.quickreserveproject.user.dto.UserMyInfoResponseDto;
-import com.sparta.quickreserveproject.user.entity.User;
-import com.sparta.quickreserveproject.global.util.EncryptionUtil;
-import com.sparta.quickreserveproject.user.repository.UserRepository;
+import com.sparta.userservice.dto.UserCreateRequestDto;
+import com.sparta.userservice.dto.UserCreateResponseDto;
+import com.sparta.userservice.dto.UserMyInfoResponseDto;
+import com.sparta.userservice.entity.User;
+import com.sparta.userservice.repository.UserRepository;
+import com.sparta.userservice.util.EncryptionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
