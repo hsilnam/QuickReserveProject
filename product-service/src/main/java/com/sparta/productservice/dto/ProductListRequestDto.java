@@ -1,4 +1,4 @@
-package com.sparta.quickreserveproject.product.dto;
+package com.sparta.productservice.dto;
 
 import lombok.*;
 

@@ -1,10 +1,10 @@
-package com.sparta.quickreserveproject.product.service;
+package com.sparta.productservice.service;
 
-import com.sparta.quickreserveproject.product.dto.ProductListResponseDto;
-import com.sparta.quickreserveproject.product.dto.ProductResponseDto;
-import com.sparta.quickreserveproject.product.dto.ProductListRequestDto;
-import com.sparta.quickreserveproject.product.entity.Product;
-import com.sparta.quickreserveproject.product.repository.ProductRepository;
+import com.sparta.productservice.dto.ProductListRequestDto;
+import com.sparta.productservice.dto.ProductListResponseDto;
+import com.sparta.productservice.dto.ProductResponseDto;
+import com.sparta.productservice.entity.Product;
+import com.sparta.productservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

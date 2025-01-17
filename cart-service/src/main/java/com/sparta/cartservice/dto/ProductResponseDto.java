@@ -1,22 +1,16 @@
-package com.sparta.productservice.dto;
+package com.sparta.cartservice.dto;
 
-import lombok.*;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductListResponseDto {
-    private List<Product> productList;
-    private Long nextCursor;
+public class ProductResponseDto {
 
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Product {
         private Long productPk;
         private String productName;
         private String productDescription;
@@ -24,5 +18,4 @@ public class ProductListResponseDto {
         private int productStock;
         private Double productAvgRating;
         private Integer productReviewCount;
-    }
 }

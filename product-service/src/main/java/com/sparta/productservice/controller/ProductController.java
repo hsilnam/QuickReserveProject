@@ -1,9 +1,9 @@
-package com.sparta.quickreserveproject.product.controller;
+package com.sparta.productservice.controller;
 
-import com.sparta.quickreserveproject.product.dto.ProductListResponseDto;
-import com.sparta.quickreserveproject.product.dto.ProductResponseDto;
-import com.sparta.quickreserveproject.product.dto.ProductListRequestDto;
-import com.sparta.quickreserveproject.product.service.ProductService;
+import com.sparta.productservice.dto.ProductListRequestDto;
+import com.sparta.productservice.dto.ProductListResponseDto;
+import com.sparta.productservice.dto.ProductResponseDto;
+import com.sparta.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
