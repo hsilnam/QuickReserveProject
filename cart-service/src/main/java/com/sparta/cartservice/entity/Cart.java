@@ -1,6 +1,5 @@
 package com.sparta.cartservice.entity;
 
-import com.sparta.quickreserveproject.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 

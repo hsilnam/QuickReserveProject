@@ -1,25 +1,28 @@
 package com.sparta.cartservice.entity;
 
-
-import com.sparta.quickreserveproject.product.entity.Product;
-import com.sparta.quickreserveproject.global.entity.CEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(value = AuditingEntityListener.class)
 @Table(name = "cart_item")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem extends CEntity {
+public class CartItem{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemPk;
 
-    @Column(nullable = false)
-    private Long cartPk;
+    @ManyToOne
+    @JoinColumn(name = "cart_pk")
+    private Cart cart;
 
     @Column(nullable = false)
     private Long productPk;
@@ -29,4 +32,8 @@ public class CartItem extends CEntity {
 
     @Column(nullable = false)
     private int cartItemPrice;
+
+    @CreatedDate
+    @Column(name = "CREATED_AT", updatable = false)
+    private LocalDateTime createdAt;
 }

@@ -1,9 +1,9 @@
 package com.sparta.cartservice.controller;
 
-import com.sparta.quickreserveproject.cart.dto.CartItemAddRequestDto;
-import com.sparta.quickreserveproject.cart.dto.CartRequestDto;
-import com.sparta.quickreserveproject.cart.dto.CartResponseDto;
-import com.sparta.quickreserveproject.cart.service.CartService;
+import com.sparta.cartservice.dto.CartItemAddRequestDto;
+import com.sparta.cartservice.dto.CartRequestDto;
+import com.sparta.cartservice.dto.CartResponseDto;
+import com.sparta.cartservice.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
