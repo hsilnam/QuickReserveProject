@@ -1,15 +1,14 @@
 package com.sparta.cartservice.service;
 
-import com.sparta.quickreserveproject.cart.dto.CartItemAddRequestDto;
-import com.sparta.quickreserveproject.cart.dto.CartRequestDto;
-import com.sparta.quickreserveproject.cart.dto.CartResponseDto;
-import com.sparta.quickreserveproject.cart.entity.Cart;
-import com.sparta.quickreserveproject.cart.entity.CartItem;
-import com.sparta.quickreserveproject.product.entity.Product;
-import com.sparta.quickreserveproject.user.entity.User;
-import com.sparta.quickreserveproject.cart.repository.CartItemRepository;
-import com.sparta.quickreserveproject.cart.repository.CartRepository;
-import com.sparta.quickreserveproject.product.repository.ProductRepository;
+import com.sparta.cartservice.client.ProductClient;
+import com.sparta.cartservice.dto.CartItemAddRequestDto;
+import com.sparta.cartservice.dto.CartRequestDto;
+import com.sparta.cartservice.dto.CartResponseDto;
+import com.sparta.cartservice.dto.ProductResponseDto;
+import com.sparta.cartservice.entity.Cart;
+import com.sparta.cartservice.entity.CartItem;
+import com.sparta.cartservice.repository.CartItemRepository;
+import com.sparta.cartservice.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,16 +26,15 @@ import java.util.stream.Collectors;
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-
-
-//    private ProductService productService; // TODO: 서비스 메서드를 통해 가져오도록 리펙토링 필요
-    private final ProductRepository productRepository;
+    private final ProductClient productClient;
 
     @Override
     public void addItemToCart(CartItemAddRequestDto dto) {
+        ProductResponseDto product = productClient.getProduct(dto.getProductPk());
 
-        Product product = productRepository.findById(dto.getProductPk())
-                .orElseThrow(() -> new IllegalArgumentException("해당 상품을 찾을 수 없습니다."));
+        if (product == null || product.getProductStock() < dto.getQuantity()) {
+            throw new IllegalArgumentException("재고가 부족하거나 상품을 찾을 수 없습니다.");
+        }
 
         if (product.getProductStock() < dto.getQuantity()) {
             throw new IllegalArgumentException("재고가 부족합니다.");
@@ -51,7 +49,7 @@ public class CartServiceImpl implements CartService {
                 });
 
         CartItem cartItem = CartItem.builder()
-                .cartPk(cart.getCartPk())
+                .cart(cart)
                 .productPk(product.getProductPk())
                 .cartItemQuantity(dto.getQuantity())
                 .cartItemPrice(product.getProductPrice() * dto.getQuantity())
@@ -65,10 +63,13 @@ public class CartServiceImpl implements CartService {
     public CartResponseDto getCart(CartRequestDto dto) {
         Pageable pageable = PageRequest.of(0, dto.getSize());
 
+        Cart cart = cartRepository.findByUserPk(dto.getUserPk())
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 카트를 찾을 수 없습니다."));
+
         Page<CartItem> cartItemPage = (dto.getCursor() == null) ?
-                cartItemRepository.findAllByUserPkOrderByIdAsc(dto.getUserPk(), pageable) :
-                cartItemRepository.findByUserPkAndIdGreaterThanOrderByIdAsc(
-                        dto.getUserPk(), dto.getCursor(), pageable
+                cartItemRepository.findByCart_CartPkOrderByCartItemPkAsc(cart.getCartPk(), pageable) :
+                cartItemRepository.findByCart_CartPkAndCartItemPkGreaterThanOrderByCartItemPkAsc(
+                        cart.getCartPk(), dto.getCursor(), pageable
                 );
 
         List<CartResponseDto.CartItem> cartItemDtoList = cartItemPage.stream()

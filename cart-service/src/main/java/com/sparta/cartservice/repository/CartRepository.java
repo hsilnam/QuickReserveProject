@@ -1,6 +1,6 @@
 package com.sparta.cartservice.repository;
 
-import com.sparta.quickreserveproject.cart.entity.Cart;
+import com.sparta.cartservice.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
