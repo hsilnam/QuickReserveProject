@@ -1,24 +1,21 @@
 package com.sparta.wishlistservice.entity;
 
-
-import com.sparta.quickreserveproject.product.entity.Product;
-import com.sparta.quickreserveproject.global.entity.CEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user_product_wish")
+@Table(name = "wishlist")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WishList extends CEntity {
+public class Wishlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_product_wish_pk")
-    private Long userProductWishPk;
+    @Column(name = "wishlist_pk")
+    private Long wishlistPk;
 
     /* TODO: 나중에 교체
     @ManyToOne

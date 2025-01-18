@@ -1,41 +1,41 @@
 package com.sparta.wishlistservice.controller;
 
-import com.sparta.wishlistservice.dto.WishListAddRequestDto;
-import com.sparta.quickreserveproject.user.dto.UserProductWishListDto;
-import com.sparta.wishlistservice.service.WishListService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sparta.wishlistservice.dto.WishlistAddRequestDto;
+import com.sparta.wishlistservice.dto.WishlistRequestDto;
+import com.sparta.wishlistservice.dto.WishlistResponseDto;
+import com.sparta.wishlistservice.service.WishlistService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/wishList")
-public class WishListController {
-
-    @Autowired
-    private WishListService userProductWishService;
+@RequestMapping("/wishlist")
+@RequiredArgsConstructor
+public class WishlistController {
+    private final WishlistService wishListService;
 
     @PostMapping
-    public ResponseEntity<String> addWish(
-            @RequestBody WishListAddRequestDto dto
+    public ResponseEntity<String> addWishProduct(
+            @RequestBody WishlistAddRequestDto dto
 //            @AuthenticationPrincipal UserDetailsImpl user // TODO: jwt
     ) {
 //        Long userPk = user.getUser().getUserPk(); // TODO: JWT에서 유저 ID 추출
         Long userPk = 1L;
         dto.setUserPk(userPk);
-        userProductWishService.addWish(dto);
+        wishListService.addWishProduct(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("위시리스트에 추가 완료");
     }
 
     @GetMapping
-    public ResponseEntity<UserProductWishListDto.Response> getWishList(
-            @ModelAttribute UserProductWishListDto.Request dto
+    public ResponseEntity<WishlistResponseDto> getWishList(
+            @ModelAttribute WishlistRequestDto dto
 //            @AuthenticationPrincipal UserDetailsImpl user // TODO: jwt
     ) {
 //        Long userPk = user.getUser().getUserPk(); // TODO: JWT에서 유저 ID 추출
         Long userPk = 1L;
         dto.setUserPk(userPk);
-        UserProductWishListDto.Response response = userProductWishService.getWishList(dto);
+        WishlistResponseDto response = wishListService.getWishList(dto);
         return ResponseEntity.ok(response);
     }
 }

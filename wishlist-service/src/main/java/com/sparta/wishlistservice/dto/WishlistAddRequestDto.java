@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class WishListAddRequestDto {
+public class WishlistAddRequestDto {
         private Long userPk;
         private Long productPk;
 }
