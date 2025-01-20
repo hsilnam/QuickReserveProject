@@ -1,4 +1,4 @@
-package com.sparta.quickreserveproject.order.dto;
+package com.sparta.orderservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

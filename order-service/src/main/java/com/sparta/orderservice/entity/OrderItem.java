@@ -1,18 +1,21 @@
-package com.sparta.quickreserveproject.order.entity;
+package com.sparta.orderservice.entity;
 
-import com.sparta.quickreserveproject.product.entity.Product;
-import com.sparta.quickreserveproject.global.entity.CEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(value = AuditingEntityListener.class)
 @Table(name = "order_item")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderItem extends CEntity {
+public class OrderItem{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +33,9 @@ public class OrderItem extends CEntity {
 
     @Column(nullable = false)
     private int price;
+
+    @CreatedDate
+    @Column(name = "CREATED_AT", updatable = false)
+    private LocalDateTime createdAt;
 }
 

@@ -1,8 +1,8 @@
-package com.sparta.quickreserveproject.order.controller;
+package com.sparta.orderservice.controller;
 
-import com.sparta.quickreserveproject.order.dto.OrderPlaceDirectRequestDto;
-import com.sparta.quickreserveproject.order.dto.OrderPlaceCartRequestDto;
-import com.sparta.quickreserveproject.order.service.OrderService;
+import com.sparta.orderservice.dto.OrderPlaceCartRequestDto;
+import com.sparta.orderservice.dto.OrderPlaceDirectRequestDto;
+import com.sparta.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

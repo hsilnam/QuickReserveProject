@@ -1,6 +1,6 @@
-package com.sparta.quickreserveproject.order.repository;
+package com.sparta.orderservice.repository;
 
-import com.sparta.quickreserveproject.order.entity.OrderItem;
+import com.sparta.orderservice.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
