@@ -1,10 +1,7 @@
 package com.sparta.cartservice.service;
 
 import com.sparta.cartservice.client.ProductClient;
-import com.sparta.cartservice.dto.CartItemAddRequestDto;
-import com.sparta.cartservice.dto.CartRequestDto;
-import com.sparta.cartservice.dto.CartResponseDto;
-import com.sparta.cartservice.dto.ProductResponseDto;
+import com.sparta.cartservice.dto.*;
 import com.sparta.cartservice.entity.Cart;
 import com.sparta.cartservice.entity.CartItem;
 import com.sparta.cartservice.repository.CartItemRepository;
@@ -87,5 +84,24 @@ public class CartServiceImpl implements CartService {
 
         return new CartResponseDto(cartItemDtoList, nextCursor);
 
+    }
+
+    @Override
+    public CartItemResponseDto getCartItem(Long userPk, Long itemPk) {
+        CartItem cartItem = cartItemRepository.findById(itemPk)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 카트 아이템을 찾을 수 없습니다."));
+        return CartItemResponseDto.builder()
+                .cartItemPk(cartItem.getCartItemPk())
+                .productPk(cartItem.getProductPk())
+                .cartItemPrice(cartItem.getCartItemPrice())
+                .cartItemQuantity(cartItem.getCartItemQuantity())
+                .build();
+    }
+
+    @Override
+    public void deleteCartItem(Long userPk, Long itemPk) {
+        CartItem cartItem = cartItemRepository.findById(itemPk)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 카트 아이템을 찾을 수 없습니다."));
+        cartItemRepository.delete(cartItem);
     }
 }
