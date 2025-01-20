@@ -2,6 +2,7 @@ package com.sparta.productservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @EntityListeners(value = AuditingEntityListener.class)
 @Table(name = "product")
 @SQLDelete(sql = "UPDATE product SET deleted_at = now() WHERE product_pk = ?")
+@DynamicUpdate
 @Where(clause = "deleted_at is null")
 @Builder
 @Getter
